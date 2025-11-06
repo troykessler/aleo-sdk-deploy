@@ -1,4 +1,16 @@
 {
   "name": "aleo-sdk-deploy",
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "type": "module",
+  "scripts": {
+    "build": "yarn tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@provablehq/sdk": "^0.9.11"
+  }
 }
