@@ -67,8 +67,13 @@ export class AleoSigner {
       // if the program is already deployed (which can be the case for some imports)
       // we simply skip it
       if (isDeployed) {
+        console.log(
+          `Skipping program ${program.id()} since it is already deployed`
+        );
         continue;
       }
+
+      console.log(`Deploying program ${program.id()}`);
 
       const fee = await ProgramManagerBase.estimateDeploymentFee(
         program.toString()
@@ -92,5 +97,9 @@ export class AleoSigner {
 
   async createValidatorAnnounce() {
     await this.deployProgram("validator_announce");
+  }
+
+  async createMailbox() {
+    await this.deployProgram("mailbox");
   }
 }
