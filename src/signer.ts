@@ -75,13 +75,9 @@ export class AleoSigner {
 
       console.log(`Deploying program ${program.id()}`);
 
-      const fee = await ProgramManagerBase.estimateDeploymentFee(
-        program.toString()
-      );
-
       const txId = await this.programManager.deploy(
         program.toString(),
-        Math.ceil(Number(fee) / 10 ** 6),
+        0,
         false
       );
 
