@@ -4,13 +4,16 @@
   "type": "module",
   "scripts": {
     "build": "yarn tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "bundle": "rm -rf ./cli-bundle && ncc build ./dist/index.js -o cli-bundle && node ./scripts/ncc.post-bundle.mjs",
+    "prepack": "yarn bundle"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
+    "@vercel/ncc": "^0.38.3",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@provablehq/sdk": "^0.9.11"
+    "@provablehq/sdk": "^0.9.13"
   }
 }

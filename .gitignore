@@ -17,3 +17,6 @@ node_modules
 .pnp.*
 
 dist
+cli-bundle
+package.tgz
+.DS_STORE

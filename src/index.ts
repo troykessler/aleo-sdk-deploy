@@ -4,16 +4,7 @@ import {
 } from "@provablehq/sdk";
 import { AleoSigner } from "./signer.js";
 
-// Attempt to set the default test heights for the consensus versions from the CONSENSUS_VERSION_HEIGHTS envar when nodeJS loads its wasm module.
-function setDefaultTestHeights() {
-  const consensusVersionHeights = process.env["CONSENSUS_VERSION_HEIGHTS"];
-  if (consensusVersionHeights) {
-    getOrInitConsensusVersionTestHeights(consensusVersionHeights);
-  }
-}
-
-setDefaultTestHeights();
-
+getOrInitConsensusVersionTestHeights("0,1,2,3,4,5,6,7,8,9,10");
 await initThreadPool();
 
 const main = async () => {
@@ -24,8 +15,8 @@ const main = async () => {
     "APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH";
   const signer = AleoSigner.connectWithSigner([localnetRpc], privateKey);
 
-  // await signer.createValidatorAnnounce();
-  await signer.createMailbox();
+  await signer.createValidatorAnnounce();
+  // await signer.createMailbox();
   console.log("done!");
 };
 

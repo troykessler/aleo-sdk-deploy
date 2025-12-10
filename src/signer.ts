@@ -6,6 +6,10 @@ import {
   Program,
   ProgramManager,
   ProgramManagerBase,
+  BHP256,
+  Group,
+  Address,
+  Plaintext,
 } from "@provablehq/sdk";
 
 import { loadProgramsInDeployOrder } from "./programs.js";
@@ -58,8 +62,32 @@ export class AleoSigner {
     }
   }
 
+  private getProgramSlug(address: string): string {
+    return new BHP256()
+      .hash(Plaintext.fromString(address).toBitsLe())
+      .toBytesLe()
+      .reduce((acc, b) => acc + b.toString(16).padStart(2, "0"), "")
+      .slice(0, 12);
+  }
+
   private async deployProgram(programName: string): Promise<Program[]> {
-    const programs = loadProgramsInDeployOrder(programName);
+    let programs = loadProgramsInDeployOrder(programName);
+
+    console.log("hit");
+    const address = new Account().address().to_string();
+    const slug = this.getProgramSlug(address);
+    console.log("slug", slug);
+
+    programs = programs.map((p) => {
+      return Program.fromString(
+        p
+          .toString()
+          .replaceAll(
+            /(mailbox|dispatch_proxy|validator_announce)\.aleo/g,
+            (_, p1) => `${p1}_${slug}.aleo`
+          )
+      );
+    });
 
     for (const program of programs) {
       const isDeployed = await this.isProgramDeployed(program);
